@@ -1,41 +1,35 @@
 package com.example.friendnotes.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
-
-import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Table(name = "friends")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
-        allowGetters = true)
 public class Friend implements Serializable {
 
-
-
     @Id
-    private  long id ;
-    @NotBlank
-    private String name ;
+    @Column(name = "id")
+    @GeneratedValue
+    private long id;
 
-    @NotBlank
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    private String surname ;
+    @Column(name = "surname", nullable = false)
+    private String surname;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "createdAt", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdAt;
 
-    @Column(nullable = false)
+    @Column(name = "updatedAt")
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date updatedAt;
@@ -64,7 +58,6 @@ public class Friend implements Serializable {
     public Date getUpdatedAt() {
         return updatedAt;
     }
-
 
 
     public void setName(String name) {
